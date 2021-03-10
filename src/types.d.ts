@@ -1,6 +1,7 @@
 import { Stage, Match, MatchGame, Participant } from 'brackets-model';
 import { BracketsViewer } from './main';
 import { locales } from './i18n';
+import {TFunction} from "i18next";
 
 declare global {
     interface Window {
@@ -61,6 +62,11 @@ export interface Config {
      * Whether to highlight every instance of a participant on hover.
      */
     highlightParticipantOnHover?: boolean,
+
+    /**
+     *  Function which is called when match was clicked
+     */
+    matchOnClick(match: Match): void,
 }
 
 /**

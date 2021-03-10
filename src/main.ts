@@ -39,6 +39,8 @@ export class BracketsViewer {
             showSlotsOrigin: config && config.showSlotsOrigin !== undefined ? config.showSlotsOrigin : true,
             showLowerBracketSlotsOrigin: config && config.showLowerBracketSlotsOrigin !== undefined ? config.showLowerBracketSlotsOrigin : true,
             highlightParticipantOnHover: config && config.highlightParticipantOnHover !== undefined ? config.highlightParticipantOnHover : true,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            matchOnClick: config && config.matchOnClick !== undefined ? config.matchOnClick : () :void => {},
         };
 
         this.participants = data.participants;
@@ -323,6 +325,10 @@ export class BracketsViewer {
     private createMatch(match: MatchResults, matchLocation?: BracketType, connection?: Connection, label?: string, originHint?: OriginHint, roundNumber?: number): HTMLElement {
         const matchContainer = dom.createMatchContainer(match.id);
         const opponents = dom.createOpponentsContainer();
+        opponents.addEventListener('click', () => {
+            this.config.matchOnClick(match as Match);
+        });
+
 
         const team1 = this.createTeam(match.opponent1, originHint, matchLocation, roundNumber);
         const team2 = this.createTeam(match.opponent2, originHint, matchLocation, roundNumber);

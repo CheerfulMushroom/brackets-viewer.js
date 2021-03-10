@@ -190,6 +190,7 @@
     border: $match-border;
     border-radius: var(--match-border-radius);
     background: var(--match-background);
+    cursor: pointer;
 
     &:hover {
       border: 1px solid var(--border-hover-color);
