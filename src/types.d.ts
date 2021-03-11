@@ -1,4 +1,4 @@
-import { Stage, Match, MatchGame, Participant } from 'brackets-model';
+import {Stage, Match, MatchGame, Participant, ParticipantResult} from 'brackets-model';
 import { BracketsViewer } from './main';
 import { locales } from './i18n';
 import {TFunction} from "i18next";
@@ -66,7 +66,7 @@ export interface Config {
     /**
      *  Function which is called when match was clicked
      */
-    matchOnClick(match: Match): void,
+    participantOnClick(match: Match, participantId: number|null|undefined): void,
 }
 
 /**

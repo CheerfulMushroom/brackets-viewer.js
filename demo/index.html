@@ -41,7 +41,10 @@
                 showSlotsOrigin: true,
                 showLowerBracketSlotsOrigin: true,
                 highlightParticipantOnHover: true,
-                matchOnClick: (match) => {console.log("Match ID: ", match.id)},
+                participantOnClick: (match, teamId) => {
+                    console.log("TeamId: ", teamId);
+                    console.log("Match data: ", match);
+                },
             });
         })();
     </script>

@@ -1,6 +1,6 @@
 import './style.scss';
-import { Participant, Match, MatchResults, ParticipantResult, StageType } from 'brackets-model';
-import { splitBy, getRanking, getOriginAbbreviation, findRoot } from './helpers';
+import {Participant, Match, MatchResults, ParticipantResult, StageType} from 'brackets-model';
+import {splitBy, getRanking, getOriginAbbreviation, findRoot} from './helpers';
 import * as dom from './dom';
 import * as lang from './lang';
 import {
@@ -40,7 +40,8 @@ export class BracketsViewer {
             showLowerBracketSlotsOrigin: config && config.showLowerBracketSlotsOrigin !== undefined ? config.showLowerBracketSlotsOrigin : true,
             highlightParticipantOnHover: config && config.highlightParticipantOnHover !== undefined ? config.highlightParticipantOnHover : true,
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            matchOnClick: config && config.matchOnClick !== undefined ? config.matchOnClick : () :void => {},
+            participantOnClick: config && config.participantOnClick !== undefined ? config.participantOnClick : (): void => {
+            },
         };
 
         this.participants = data.participants;
@@ -57,7 +58,7 @@ export class BracketsViewer {
 
     /**
      * Adds a locale to the available i18n bundles.
-     * 
+     *
      * @param name Name of the locale.
      * @param locale Contents of the locale.
      */
@@ -325,13 +326,16 @@ export class BracketsViewer {
     private createMatch(match: MatchResults, matchLocation?: BracketType, connection?: Connection, label?: string, originHint?: OriginHint, roundNumber?: number): HTMLElement {
         const matchContainer = dom.createMatchContainer(match.id);
         const opponents = dom.createOpponentsContainer();
-        opponents.addEventListener('click', () => {
-            this.config.matchOnClick(match as Match);
-        });
-
 
         const team1 = this.createTeam(match.opponent1, originHint, matchLocation, roundNumber);
         const team2 = this.createTeam(match.opponent2, originHint, matchLocation, roundNumber);
+        team1.addEventListener('click', () => {
+            this.config.participantOnClick(match as Match, match.opponent1?.id);
+        });
+        team2.addEventListener('click', () => {
+            this.config.participantOnClick(match as Match, match.opponent2?.id);
+        });
+
 
         if (label)
             opponents.append(dom.createMatchLabel(label, lang.getMatchStatus(match.status)));
